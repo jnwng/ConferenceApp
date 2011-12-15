@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@interface cnfCallListController : UIViewController
+@interface cnfCallListController : UIViewController 
+    <UITableViewDataSource, UITableViewDelegate>
+{
+    IBOutlet UITableView *callListTable;
+    NSMutableArray *callArray;
+}
 
+@property (strong, nonatomic) IBOutlet UITableView *callListTable;
+@property (strong, nonatomic) NSMutableArray *callArray;
+
+- (void) saveCall;
+- (void) loadCalls;
 @end
