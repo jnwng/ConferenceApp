@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="Test1.xcdatamodel" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1" systemVersion="11A491" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <elements/>
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="872" systemVersion="11C74" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Call_Contacts" syncable="YES">
+        <relationship name="call" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Calls" syncable="YES"/>
+        <relationship name="contact" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Contacts" syncable="YES"/>
+    </entity>
+    <entity name="Calls" syncable="YES">
+        <attribute name="time" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="Contacts" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="User" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="phone" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Call_Contacts" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Calls" positionX="160" positionY="192" width="128" height="75"/>
+        <element name="Contacts" positionX="160" positionY="192" width="128" height="90"/>
+        <element name="User" positionX="-182" positionY="204" width="128" height="75"/>
+    </elements>
 </model>

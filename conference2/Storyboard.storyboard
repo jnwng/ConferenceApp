@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="1.0" toolsVersion="1938" systemVersion="11C74" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="Mvq-Lr-TwL">
+    <dependencies>
+        <development version="4200" defaultVersion="4200" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="933"/>
+    </dependencies>
+    <scenes>
+        <scene sceneID="Ql2-IP-p95">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gHi-5A-mHv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="y9I-MV-dgW" customClass="cnfCallListController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PVQ-vu-MtL">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="G0r-MC-LbC">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CallCell" id="9tv-eB-3us">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Call List" id="sxo-1T-tpE">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kGe-C0-dFn">
+                            <connections>
+                                <segue destination="g2z-Gg-MYp" kind="modal" identifier="callSetupSegue" id="FeC-1V-iW9"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="802" y="142"/>
+        </scene>
+        <scene sceneID="xeW-Za-xbc">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bNt-Q5-jfa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="g2z-Gg-MYp" customClass="cnfCallSetupController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="G1f-wD-10U">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="CFG-HS-8OT">
+                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="SetupCell" id="9Na-fh-F8B">
+                                        <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="a5j-rf-Una">
+                                        <rect key="frame" x="0.0" y="66" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" id="Je9-nq-0dV">
+                                        <rect key="frame" x="0.0" y="110" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                            <navigationBar contentMode="scaleToFill" id="ezR-Go-T7g">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="Call Setup" id="4od-1q-JUJ">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="srb-KU-x6y"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="6t8-Cl-FDg"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1280" y="142"/>
+        </scene>
+        <scene sceneID="VGC-FJ-IIg">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wyQ-Oq-aH4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <navigationController definesPresentationContext="YES" id="Mvq-Lr-TwL" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="XjS-kF-vK7">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="y9I-MV-dgW" kind="relationship" relationship="rootViewController" id="Pj9-AA-aBq"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="268" y="142"/>
+        </scene>
+    </scenes>
+    <classes>
+        <class className="cnfCallListController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfCallListController.h"/>
+        </class>
+        <class className="cnfCallSetupController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfCallSetupController.h"/>
+        </class>
+    </classes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination"/>
+    </simulatedMetricsContainer>
+</document>
