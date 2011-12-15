@@ -1,0 +1,284 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FC5834C01499796B001F89EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834BF1499796B001F89EC /* UIKit.framework */; };
+		FC5834C21499796B001F89EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834C11499796B001F89EC /* Foundation.framework */; };
+		FC5834C41499796B001F89EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834C31499796B001F89EC /* CoreGraphics.framework */; };
+		FC5834C61499796B001F89EC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834C51499796B001F89EC /* CoreData.framework */; };
+		FC5834CC1499796B001F89EC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FC5834CA1499796B001F89EC /* InfoPlist.strings */; };
+		FC5834CE1499796B001F89EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5834CD1499796B001F89EC /* main.m */; };
+		FC5834D21499796B001F89EC /* cnfAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5834D11499796B001F89EC /* cnfAppDelegate.m */; };
+		FC5834D51499796C001F89EC /* conference2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC5834D31499796C001F89EC /* conference2.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FC5834BB1499796B001F89EC /* conference2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = conference2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC5834BF1499796B001F89EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FC5834C11499796B001F89EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FC5834C31499796B001F89EC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FC5834C51499796B001F89EC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FC5834C91499796B001F89EC /* conference2-Info.plist */ = {isa = PBXFileReference; path = "conference2-Info.plist"; sourceTree = "<group>"; };
+		FC5834CB1499796B001F89EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FC5834CD1499796B001F89EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FC5834CF1499796B001F89EC /* conference2-Prefix.pch */ = {isa = PBXFileReference; path = "conference2-Prefix.pch"; sourceTree = "<group>"; };
+		FC5834D01499796B001F89EC /* cnfAppDelegate.h */ = {isa = PBXFileReference; path = cnfAppDelegate.h; sourceTree = "<group>"; };
+		FC5834D11499796B001F89EC /* cnfAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cnfAppDelegate.m; sourceTree = "<group>"; };
+		FC5834D41499796C001F89EC /* conference2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = conference2.xcdatamodel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FC5834B81499796B001F89EC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5834C01499796B001F89EC /* UIKit.framework in Frameworks */,
+				FC5834C21499796B001F89EC /* Foundation.framework in Frameworks */,
+				FC5834C41499796B001F89EC /* CoreGraphics.framework in Frameworks */,
+				FC5834C61499796B001F89EC /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FC5834B01499796B001F89EC = {
+			isa = PBXGroup;
+			children = (
+				FC5834C71499796B001F89EC /* conference2 */,
+				FC5834BE1499796B001F89EC /* Frameworks */,
+				FC5834BC1499796B001F89EC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FC5834BC1499796B001F89EC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FC5834BB1499796B001F89EC /* conference2.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FC5834BE1499796B001F89EC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC5834BF1499796B001F89EC /* UIKit.framework */,
+				FC5834C11499796B001F89EC /* Foundation.framework */,
+				FC5834C31499796B001F89EC /* CoreGraphics.framework */,
+				FC5834C51499796B001F89EC /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FC5834C71499796B001F89EC /* conference2 */ = {
+			isa = PBXGroup;
+			children = (
+				FC5834D01499796B001F89EC /* cnfAppDelegate.h */,
+				FC5834D11499796B001F89EC /* cnfAppDelegate.m */,
+				FC5834D31499796C001F89EC /* conference2.xcdatamodeld */,
+				FC5834C81499796B001F89EC /* Supporting Files */,
+			);
+			path = conference2;
+			sourceTree = "<group>";
+		};
+		FC5834C81499796B001F89EC /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FC5834C91499796B001F89EC /* conference2-Info.plist */,
+				FC5834CA1499796B001F89EC /* InfoPlist.strings */,
+				FC5834CD1499796B001F89EC /* main.m */,
+				FC5834CF1499796B001F89EC /* conference2-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FC5834BA1499796B001F89EC /* conference2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC5834D81499796C001F89EC /* Build configuration list for PBXNativeTarget "conference2" */;
+			buildPhases = (
+				FC5834B71499796B001F89EC /* Sources */,
+				FC5834B81499796B001F89EC /* Frameworks */,
+				FC5834B91499796B001F89EC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = conference2;
+			productName = conference2;
+			productReference = FC5834BB1499796B001F89EC /* conference2.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FC5834B21499796B001F89EC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = FC5834B51499796B001F89EC /* Build configuration list for PBXProject "conference2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FC5834B01499796B001F89EC;
+			productRefGroup = FC5834BC1499796B001F89EC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FC5834BA1499796B001F89EC /* conference2 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FC5834B91499796B001F89EC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5834CC1499796B001F89EC /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FC5834B71499796B001F89EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5834CE1499796B001F89EC /* main.m in Sources */,
+				FC5834D21499796B001F89EC /* cnfAppDelegate.m in Sources */,
+				FC5834D51499796C001F89EC /* conference2.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FC5834CA1499796B001F89EC /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FC5834CB1499796B001F89EC /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FC5834D61499796C001F89EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		FC5834D71499796C001F89EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FC5834D91499796C001F89EC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "conference2/conference2-Prefix.pch";
+				INFOPLIST_FILE = "conference2/conference2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FC5834DA1499796C001F89EC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "conference2/conference2-Prefix.pch";
+				INFOPLIST_FILE = "conference2/conference2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FC5834B51499796B001F89EC /* Build configuration list for PBXProject "conference2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5834D61499796C001F89EC /* Debug */,
+				FC5834D71499796C001F89EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC5834D81499796C001F89EC /* Build configuration list for PBXNativeTarget "conference2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5834D91499796C001F89EC /* Debug */,
+				FC5834DA1499796C001F89EC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FC5834D31499796C001F89EC /* conference2.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FC5834D41499796C001F89EC /* conference2.xcdatamodel */,
+			);
+			currentVersion = FC5834D41499796C001F89EC /* conference2.xcdatamodel */;
+			path = conference2.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FC5834B21499796B001F89EC /* Project object */;
+}
