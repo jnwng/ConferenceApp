@@ -39,7 +39,7 @@
                     <navigationItem key="navigationItem" title="Call List" id="sxo-1T-tpE">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="kGe-C0-dFn">
                             <connections>
-                                <segue destination="vzI-e5-OFS" kind="push" id="4zE-9k-P1m"/>
+                                <segue destination="vzI-e5-OFS" kind="push" identifier="addCallSegue" id="4zE-9k-P1m"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -72,11 +72,11 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="callTimeCell" id="EaK-wH-bKI">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="scheduleCallCell" id="EaK-wH-bKI">
                                         <rect key="frame" x="0.0" y="91" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <rect key="frame" x="10" y="1" width="280" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -99,13 +99,104 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Call Setup" id="dqi-nf-IbV">
+                        <barButtonItem key="rightBarButtonItem" title="Schedule" id="3ji-LQ-fUk">
+                            <connections>
+                                <action selector="onScheduleButtonClick" destination="vzI-e5-OFS" id="e62-3e-Ix1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="callSetupTable" destination="zv6-AG-wd4" id="TVz-rz-QyF"/>
+                        <outlet property="scheduleButton" destination="3ji-LQ-fUk" id="NPV-Za-baw"/>
                         <segue destination="FJB-xc-zJh" kind="push" identifier="addContactsSegue" id="3PZ-DK-TxD"/>
+                        <segue destination="gxC-cj-pdv" kind="push" identifier="scheduleCallSegue" id="GEh-yq-L3t"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1251" y="142"/>
+        </scene>
+        <scene sceneID="zb9-eE-vV8">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h6v-7L-K52" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="gxC-cj-pdv" customClass="cnfScheduleCallController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hUg-TX-uMC">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" id="iVM-u6-xZt">
+                                <rect key="frame" x="0.0" y="200" width="320" height="216"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <date key="date" timeIntervalSinceReferenceDate="347328757.64355803">
+                                    <!--2012-01-04 00:12:37 +0000-->
+                                </date>
+                                <locale key="locale" localeIdentifier="en_US"/>
+                                <timeZone key="timeZone" name="America/Los_Angeles">
+                                    <data key="data">
+VFppZgAAAAAAAAAAAAAAAAAAAAAAAAAEAAAABAAAAAAAAAC5AAAABAAAABCepkign7sVkKCGKqChmveQ
+y4kaoNIj9HDSYSYQ1v50INiArZDa/tGg28CQENzes6DdqayQ3r6VoN+JjpDgnneg4WlwkOJ+WaDjSVKQ
+5F47oOUpNJDmR1gg5xJREOgnOiDo8jMQ6gccIOrSFRDr5v4g7LH3EO3G4CDukdkQ76/8oPBxuxDxj96g
+8n/BkPNvwKD0X6OQ9U+ioPY/hZD3L4Sg+CiiEPkPZqD6CIQQ+viDIPvoZhD82GUg/chIEP64RyD/qCoQ
+AJgpIAGIDBACeAsgA3EokARhJ6AFUQqQBkEJoAcw7JAHjUOgCRDOkAmtvyAK8LCQC+CvoAzZzRANwJGg
+DrmvEA+priAQmZEQEYmQIBJ5cxATaXIgFFlVEBVJVCAWOTcQFyk2IBgiU5AZCRggGgI1kBryNKAb4heQ
+HNIWoB3B+ZAesfigH6HbkCB2KyAhgb2QIlYNICNq2hAkNe8gJUq8ECYV0SAnKp4QJ/7toCkKgBAp3s+g
+KupiECu+saAs036QLZ6ToC6zYJAvfnWgMJNCkDFnkiAycySQM0d0IDRTBpA1J1YgNjLokDcHOCA4HAUQ
+OOcaIDn75xA6xvwgO9vJEDywGKA9u6sQPo/6oD+bjRBAb9ygQYSpkEJPvqBDZIuQRC+goEVEbZBF89Mg
+Ry2KEEfTtSBJDWwQSbOXIErtThBLnLOgTNZqkE18laBOtkyQT1x3oFCWLpBRPFmgUnYQkFMcO6BUVfKQ
+VPwdoFY11JBW5TogWB7xEFjFHCBZ/tMQWqT+IFvetRBchOAgXb6XEF5kwiBfnnkQYE3eoGGHlZBiLcCg
+Y2d3kGQNoqBlR1mQZe2EoGcnO5BnzWagaQcdkGmtSKBq5v+Qa5ZlIGzQHBBtdkcgbq/+EG9WKSBwj+AQ
+cTYLIHJvwhBzFe0gdE+kEHT/CaB2OMCQdt7roHgYopB4vs2gefiEkHqer6B72GaQfH6RoH24SJB+XnOg
+f5gqkAABAAECAwEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEAAQABAAEA
+AQABAAEAAQAB//+dkAEA//+PgAAE//+dkAEI//+dkAEMUERUAFBTVABQV1QAUFBUAAAAAAEAAAABA
+</data>
+                                </timeZone>
+                                <connections>
+                                    <action selector="onDateChange:" destination="gxC-cj-pdv" eventType="valueChanged" id="boP-7x-5TK"/>
+                                </connections>
+                            </datePicker>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="cRk-yq-m2a">
+                                <rect key="frame" x="20" y="44" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="Js9-6j-y2j">
+                                <rect key="frame" x="20" y="77" width="280" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" textAlignment="center" lineBreakMode="tailTruncation" minimumFontSize="10" id="c9a-HN-ZaU">
+                                <rect key="frame" x="0.0" y="106" width="320" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="AbP-Vp-hGY">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="mBq-lB-Qcq">
+                            <connections>
+                                <action selector="onDoneButtonClick:" destination="gxC-cj-pdv" id="ob1-qv-zMl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dateLabel" destination="c9a-HN-ZaU" id="yJU-EC-TlQ"/>
+                        <outlet property="datePicker" destination="iVM-u6-xZt" id="VuA-rn-1VG"/>
+                        <outlet property="doneButton" destination="mBq-lB-Qcq" id="um2-Ch-apb"/>
+                        <outlet property="timeLabel" destination="Js9-6j-y2j" id="vSF-df-phR"/>
+                        <outlet property="weekdayLabel" destination="cRk-yq-m2a" id="3Dt-A0-SrY"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1776" y="-67"/>
         </scene>
         <scene sceneID="P9R-xu-C47">
             <objects>
@@ -150,16 +241,94 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Participants" id="Waq-XA-cDw">
-                        <barButtonItem key="rightBarButtonItem" title="Item" id="DOh-7V-Nov"/>
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="DOh-7V-Nov">
+                            <connections>
+                                <action selector="onSaveButtonClick" destination="FJB-xc-zJh" id="4qO-bi-VjX"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="addContactButton" destination="Oqe-8l-IyI" id="Oqt-bi-WdS"/>
                         <outlet property="addContactsButton" destination="BC4-PC-gh9" id="yd2-2o-l06"/>
+                        <outlet property="doneButton" destination="DOh-7V-Nov" id="z7u-Ei-FG1"/>
                         <outlet property="participantsTable" destination="5zw-gg-HoX" id="6lS-I4-80Z"/>
+                        <segue destination="ygn-n1-uf8" kind="modal" identifier="addNewContactSegue" id="tNS-hA-Nhu"/>
                     </connections>
                 </viewController>
             </objects>
             <point key="canvasLocation" x="1783" y="499"/>
+        </scene>
+        <scene sceneID="4Ak-GW-gVI">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lrs-ow-OZj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="ygn-n1-uf8" customClass="cnfAddNewContactController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="fbG-Ay-aCD">
+                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" id="tDN-gO-FCQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                <items>
+                                    <navigationItem title="New Contact" id="RpD-HU-wIw">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="S5r-Qo-Rfq">
+                                            <color key="tintColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <connections>
+                                                <action selector="onCancelButtonClick" destination="ygn-n1-uf8" id="A2y-vb-qzz"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Save" id="3Rx-YY-OA1">
+                                            <connections>
+                                                <action selector="onSaveButtonClick" destination="ygn-n1-uf8" id="wcT-AB-fH6"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="singleLineEtched" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="wBl-3X-z8g">
+                                <rect key="frame" x="0.0" y="44" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="contactNameCell" id="tJ9-cY-LXf">
+                                        <rect key="frame" x="0.0" y="46" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="contactPhoneCell" id="uhz-KW-ATs">
+                                        <rect key="frame" x="0.0" y="91" width="320" height="45"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="10" y="1" width="300" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableViewCell>
+                                </prototypes>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="ygn-n1-uf8" id="wca-PR-NDJ"/>
+                                    <outlet property="delegate" destination="ygn-n1-uf8" id="IbY-rZ-lus"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="yX4-XV-Og2"/>
+                    <connections>
+                        <outlet property="cancelButton" destination="S5r-Qo-Rfq" id="R78-Xa-Jaf"/>
+                        <outlet property="contactSetupTable" destination="wBl-3X-z8g" id="2uR-qo-XWA"/>
+                        <outlet property="saveButton" destination="3Rx-YY-OA1" id="fKt-PR-jSd"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2172" y="499"/>
         </scene>
         <scene sceneID="VGC-FJ-IIg">
             <objects>
@@ -177,6 +346,15 @@
         </scene>
     </scenes>
     <classes>
+        <class className="cnfAddNewContactController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfAddNewContactController.h"/>
+            <relationships>
+                <relationship kind="action" name="onCancelButtonClick"/>
+                <relationship kind="action" name="onSaveButtonClick"/>
+                <relationship kind="outlet" name="cancelButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="saveButton" candidateClass="UIBarButtonItem"/>
+            </relationships>
+        </class>
         <class className="cnfCallListController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfCallListController.h"/>
             <relationships>
@@ -186,18 +364,32 @@
         <class className="cnfCallSetupController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfCallSetupController.h"/>
             <relationships>
+                <relationship kind="action" name="onScheduleButtonClick"/>
                 <relationship kind="outlet" name="callSetupTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="scheduleButton" candidateClass="UIBarButtonItem"/>
             </relationships>
         </class>
         <class className="cnfParticipantsController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfParticipantsController.h"/>
             <relationships>
                 <relationship kind="action" name="onAddContactClick"/>
+                <relationship kind="action" name="onSaveButtonClick"/>
                 <relationship kind="outlet" name="addContactButton" candidateClass="UIToolbar"/>
                 <relationship kind="outlet" name="addContactsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="navBar" candidateClass="UINavigationBar"/>
+                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
                 <relationship kind="outlet" name="participantsTable" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="cnfScheduleCallController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/cnfScheduleCallController.h"/>
+            <relationships>
+                <relationship kind="action" name="onDateChange:"/>
+                <relationship kind="action" name="onDoneButtonClick:"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="datePicker" candidateClass="UIDatePicker"/>
+                <relationship kind="outlet" name="doneButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="timeLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="weekdayLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
     </classes>

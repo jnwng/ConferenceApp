@@ -8,48 +8,110 @@
 
 #import "cnfCallListController.h"
 #import "cnfAppDelegate.h"
+#import "cnfCallSetupController.h"
 
 @implementation cnfCallListController
-@synthesize callListTable, callArray;
-
-- (void)saveCall {
-    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
-    NSManagedObject *newCall;
-    newCall = [NSEntityDescription insertNewObjectForEntityForName:@"Calls" inManagedObjectContext:context];
-    [newCall setValue:@"TestTime" forKey:@"time"];
-    [newCall setValue:@"TestTitle" forKey:@"title"];
-//    name.text = @"";
-//    phone.text = @"";
-    NSError *error;
-    [context save:&error];
-//    status.text = @"Contact Saved";
-}
+@synthesize callListTable, callArray, selectedCall;
 
 - (void) loadCalls {
     cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = 
     [appDelegate managedObjectContext];
     NSEntityDescription *entityDesc = 
-    [NSEntityDescription entityForName:@"Calls" inManagedObjectContext:context];
+    [NSEntityDescription entityForName:@"Call" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDesc];
-    NSPredicate *pred = [NSPredicate predicateWithFormat:@""];
-    [request setPredicate:pred];
-//    NSManagedObject *matches = nil;
     NSError *error;
     callArray = [[context executeFetchRequest:request error:&error] mutableCopy];
-    if ([callArray count] == 0) {
-//        status.text = @"No matches";
-    } 
-//    else {
-//            [callArray addObject:matches];
-////        matches = [objects objectAtIndex:0];
-////        address.text = [matches valueForKey:@"address"];
-////        phone.text = [matches valueForKey:@"phone"];
-////        status.text = [NSString stringWithFormat:
-////                       @"%d matches found", [objects count]];
-//    }
+}
+
+- (void) scheduleCall:(id)sender withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants {
+    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    NSManagedObject *newCall;
+    newCall = [NSEntityDescription insertNewObjectForEntityForName:@"Call" inManagedObjectContext:context];
+    [newCall setValue:title forKey:@"title"];
+    [newCall setValue:time forKey:@"time"];
+    NSMutableSet *callParticipants = [newCall mutableSetValueForKey:@"participants"];
+    [callParticipants addObjectsFromArray:participants];
+    NSError *error;
+    [context save:&error];
+    
+    [self callAPI:self withTime:time withParticipants:participants isUpdating:NO];
+    
+    [callArray addObject:newCall];
+    [self updateCallList];
+}
+
+- (void) updateCall:(id)sender withTitle:(NSString *)title withTime:(NSDate *)time 
+   withParticipants:(NSArray *)participants withOriginalCall:(NSManagedObject *)call {
+    [call setValue:title forKey:@"title"];
+    [call setValue:time forKey:@"time"];
+    NSMutableSet *callParticipants = [call mutableSetValueForKey:@"participants"];
+    [callParticipants addObjectsFromArray:participants];
+    
+    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    [context refreshObject:call mergeChanges:YES];
+    NSError *error;
+    [context save:&error];
+    [self updateCallList];
+}
+
+- (void) deleteCall:(NSManagedObject *)call {
+//    [callArray replaceObjectAtIndex:<#(NSUInteger)#> withObject:<#(id)#>:call];
+//    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+//    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+//    [context refreshObject:<#(NSManagedObject *)#> mergeChanges:<#(BOOL)#>:call];
+//    NSError *error;
+//    [context save:&error];
+//    [self updateCallList];
+}
+ 
+- (void) updateCallList {
+    NSIndexSet *sectionIndex = [[NSIndexSet alloc] initWithIndex:0];
+    [callListTable beginUpdates];
+    [callListTable reloadSections:sectionIndex withRowAnimation:YES];
+    [callListTable endUpdates];
+    sectionIndex = nil;
+}
+
+- (void) callAPI:(id)sender withTime:(NSDate *)time 
+        withParticipants:(NSArray *)participants isUpdating:(BOOL)updating {
+    NSString *participantText, *tempText, *phoneText;
+    NSURLConnection *urlConnection;
+    NSTimeInterval unixInterval = [time timeIntervalSince1970];
+    NSString *callTimeText = [[NSString alloc] initWithFormat:@"date=%0.0f", unixInterval];
+    
+    participantText = [[NSString alloc] initWithString:@""];
+    for (int i = 0; i < [participants count]; i ++) {
+        phoneText = [[participants objectAtIndex:i] valueForKey:@"phone"];
+        tempText = [NSString stringWithFormat:@"1%@,", phoneText];
+        participantText = [participantText stringByAppendingString:tempText];
+    }
+    
+    NSString *fullURL = [[NSString alloc] initWithString:@"http://tiktam.herokuapp.com/api/conferences/new?"];
+    fullURL = [fullURL stringByAppendingString:callTimeText];
+    fullURL = [fullURL stringByAppendingString:@"&numbers="];
+    fullURL = [fullURL stringByAppendingString:participantText];
+    NSURL *confURL = [[NSURL alloc] initWithString:fullURL];
+    urlConnection = [[NSURLConnection alloc] initWithRequest: [NSURLRequest requestWithURL: confURL] delegate: self startImmediately: YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    /*
+     When a row is selected, the segue creates the detail view controller as the destination.
+     Set the detail view controller's detail item to the item associated with the selected row.
+     */
+    if ([[segue identifier] isEqualToString:@"addCallSegue"]) {
+        cnfCallSetupController *callSetupController = [segue destinationViewController];
+        callSetupController.parent = self;
+        if (selectedCall) {
+            callSetupController.callToUpdate = selectedCall;
+            selectedCall = nil;
+        }
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -63,14 +125,20 @@
     }
     
     //    // Get the object to display and set the value in the cell.
-    NSManagedObject *call = [callArray objectAtIndex:[indexPath row]];
+    NSManagedObject *call = [callArray objectAtIndex:[callArray count] - [indexPath row] - 1];
     cell.textLabel.text = [call valueForKey:@"title"];
-//    cell.timeLabel.text = [call valueForKey:@"time"];
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 1;
+    return [callArray count];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    selectedCall = [callArray objectAtIndex:[indexPath row]];
+    [self performSegueWithIdentifier:@"addCallSegue" sender:self];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    selectedCall = nil;
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -99,13 +167,15 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    callArray = [[NSMutableArray alloc] init];
+    [self loadCalls];
 }
-*/
+
 
 - (void)viewDidUnload
 {

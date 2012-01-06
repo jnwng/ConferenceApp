@@ -8,21 +8,25 @@
 
 #import "cnfParticipantsController.h"
 #import "cnfAppDelegate.h"
+#import "cnfAddNewContactController.h"
 
 
 @implementation cnfParticipantsController
-@synthesize addContactsButton;
-@synthesize navBar, participantsTable, recentContactsArray;
+@synthesize doneButton, addContactsButton, participantsTable, recentContactsArray, participantsArray, parent;
 
 - (IBAction) onAddContactClick {
     UIActionSheet *addContactDialog = [[UIActionSheet alloc] initWithTitle:@"Choose an existing contact, or add a new one" 
-                                                                  delegate:self 
-                                                         cancelButtonTitle:@"Cancel" 
-                                                    destructiveButtonTitle:nil 
-                                                         otherButtonTitles:@"Add Existing Contact", @"Add New Contact", nil];
+                                                        delegate:self 
+                                                        cancelButtonTitle:@"Cancel" 
+                                                        destructiveButtonTitle:nil 
+                                                        otherButtonTitles:@"Add Existing Contact", @"Add New Contact", nil];
     addContactDialog.actionSheetStyle = UIActionSheetStyleBlackOpaque;
     [addContactDialog showInView:self.view];
     addContactDialog = nil;
+}
+ 
+- (IBAction) onSaveButtonClick {
+    [self saveCallParticipants];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
@@ -31,44 +35,50 @@
             [self showExistingContacts];
             break;
         case 1:
-//            [self showNewContact];
+            [self showNewContact];
             break;
         default:
             break;
     }
 }
 
-- (void) addContact:id withName:(NSString *)name withPhoneNumber:(NSString *)phoneNumber {
-    if (![self checkDuplicateContact:self withPhoneNumber:phoneNumber]) {
-        NSManagedObject *person = [self saveRecentContact:self withName:name withPhoneNumber:phoneNumber];
+- (BOOL) addContact:id withName:(NSString *)name withPhoneNumber:(NSString *)phoneNumber {
+    NSString *validatedNumber = [self stripAndValidatePhoneNumber:phoneNumber];
+    if (validatedNumber) {
+        if (![self checkDuplicateContact:self withPhoneNumber:validatedNumber]) {
+            NSManagedObject *person = [self saveRecentContact:self withName:name withPhoneNumber:validatedNumber];
     
-        [recentContactsArray addObject:person];
-        NSIndexPath *rowIndex = [NSIndexPath indexPathForRow:0 inSection:0];
-        NSArray *insertIndexPaths = [NSArray arrayWithObjects:rowIndex,nil];
+            [recentContactsArray insertObject:person atIndex:0];
+            NSIndexPath *rowIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+            NSArray *insertIndexPaths = [NSArray arrayWithObjects:rowIndex,nil];
     
-        [participantsTable beginUpdates];
-        [participantsTable insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationRight];
-        [participantsTable endUpdates];
+            [participantsTable beginUpdates];
+            [participantsTable insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationRight];
+            [participantsTable endUpdates];
     
-        rowIndex = nil;
-        insertIndexPaths = nil;
-    }
-    else {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                        message:@"Duplicate participant added!" 
-                                                       delegate:nil 
+            rowIndex = nil;
+            insertIndexPaths = nil;
+            return YES;
+        }
+        else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                              message:@"Duplicate participant added!" 
+                                              delegate:nil 
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];
-        [alert show];
-        alert = nil;
+            [alert show];
+            alert = nil;
+            return NO;
+        }
     }
+    return NO;
 }
 
 - (NSManagedObject *) saveRecentContact:id withName:(NSString *)name withPhoneNumber:(NSString *)phoneNumber {
     cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
     NSManagedObject *newContact;
-    newContact = [NSEntityDescription insertNewObjectForEntityForName:@"Contacts" inManagedObjectContext:context];
+    newContact = [NSEntityDescription insertNewObjectForEntityForName:@"Contact" inManagedObjectContext:context];
     [newContact setValue:name forKey:@"name"];
     [newContact setValue:phoneNumber forKey:@"phone"];
     NSError *error;
@@ -80,7 +90,7 @@
     cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = 
     [appDelegate managedObjectContext];
-    NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Contacts" inManagedObjectContext:context];
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDesc];
 //    NSPredicate *pred = [NSPredicate predicateWithFormat:@"(name = %@)", name.text];
@@ -98,7 +108,7 @@
     cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = 
     [appDelegate managedObjectContext];
-    NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Contacts" inManagedObjectContext:context];
+    NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Contact" inManagedObjectContext:context];
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:entityDesc];
     NSPredicate *pred = [NSPredicate predicateWithFormat:@"phone = %@", phoneNumber];
@@ -108,7 +118,12 @@
     return [contacts count] != 0;
 }
 
-- (void)showNewContact {
+- (void) saveCallParticipants {
+    [parent updateParticipants];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void) showNewContact {
     [self performSegueWithIdentifier:@"addNewContactSegue" sender:self];
 }
 
@@ -135,42 +150,60 @@
     
     // We need to check the length of the phone number so we don't dismiss the modal too early
     if (property == kABPersonPhoneProperty) {
-        NSString *originalPhoneNumber;
+        NSString *phoneNumber;
         ABMultiValueRef multi = ABRecordCopyValue(person, property);
         CFIndex theIndex = ABMultiValueGetIndexForIdentifier(multi, identifier);
-        originalPhoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multi, theIndex);
-        NSMutableString *strippedPhoneNumber = [NSMutableString stringWithCapacity:originalPhoneNumber.length];
-        
-        NSScanner *scanner = [NSScanner scannerWithString:originalPhoneNumber];
-        NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
-        while ([scanner isAtEnd] == NO) {
-            NSString *buffer;
-            if ([scanner scanCharactersFromSet:numbers intoString:&buffer]) {
-                [strippedPhoneNumber appendString:buffer];
-                
-            } else {
-                [scanner setScanLocation:([scanner scanLocation] + 1)];
-            }
-            buffer = nil;
-        }
-        
-        CFRelease(multi);
-        originalPhoneNumber = nil;
-        scanner = nil;
-        numbers = nil;
-        
-        if ([strippedPhoneNumber length] == 10) {
-            NSMutableString* name = [(__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) mutableCopy];
-            [name appendString:@" "];
-            [name appendString:(__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty)];
-            [self addContact:self withName:name withPhoneNumber:strippedPhoneNumber];
+        phoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multi, theIndex);
+        NSMutableString* name = [(__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) mutableCopy];
+        [name appendString:@" "];
+        [name appendString:(__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty)];
+        if ([self addContact:self withName:name withPhoneNumber:phoneNumber]) {
             [self dismissModalViewControllerAnimated:YES];
-            strippedPhoneNumber = nil;
             return NO;
-        }           
-        strippedPhoneNumber = nil;
+        }
     }
     return YES;
+}
+
+- (NSString *) stripAndValidatePhoneNumber:(NSString *)phoneNumber {
+    NSMutableString *strippedNumber = 
+        [NSMutableString stringWithCapacity:phoneNumber.length];
+    
+    NSScanner *scanner = [NSScanner scannerWithString:phoneNumber];
+    NSCharacterSet *numbers = [NSCharacterSet characterSetWithCharactersInString:@"0123456789"];
+    while ([scanner isAtEnd] == NO) {
+        NSString *buffer;
+        if ([scanner scanCharactersFromSet:numbers intoString:&buffer]) {
+            [strippedNumber appendString:buffer];
+            
+        } else {
+            [scanner setScanLocation:([scanner scanLocation] + 1)];
+        }
+        buffer = nil;
+    }
+    scanner = nil;
+    numbers = nil;
+    
+    if ([strippedNumber length] == 10) {
+        return strippedNumber;
+    }
+    else {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                        message:@"Invalid phone number. ##########" 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil];
+        [alert show];
+        alert = nil;
+        return nil;
+    }
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"addNewContactSegue"]) {
+        cnfAddNewContactController *controller = [segue destinationViewController];
+        controller.parent = self;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,18 +226,21 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self loadRecentContacts];
+    participantsArray = [parent participantsArray];
 }
 
 - (void)viewDidUnload
 {
-    navBar = nil;
-    [self setNavBar:nil];
     participantsTable = nil;
     [self setParticipantsTable:nil];
     recentContactsArray = nil;
     [self setRecentContactsArray:nil];
+    participantsArray = nil;
+    [self setParticipantsArray:nil];
     addContactButton = nil;
     [self setAddContactsButton:nil];
+    doneButton = nil;
+    [self setDoneButton:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
@@ -245,11 +281,17 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
     
     //    // Get the object to display and set the value in the cell.
     NSManagedObject *contact = [recentContactsArray objectAtIndex:[indexPath row]];
+    if ([[parent participantsArray] containsObject:contact]) {
+        cell.accessoryType = UITableViewCellAccessoryCheckmark;
+    }
+    else {
+        cell.accessoryType = UITableViewCellAccessoryNone;
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.textLabel.text = [NSString stringWithFormat:@"%@ %@", [contact valueForKey:@"name"], [contact valueForKey:@"phone"]];
     return cell;
 }
@@ -301,13 +343,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Navigation logic may go here. Create and push another view controller.
-    /*
-     <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-     [self.navigationController pushViewController:detailViewController animated:YES];
-     */
+    NSUInteger index = [[tableView indexPathsForVisibleRows] indexOfObject:indexPath];
+    
+    if (index != NSNotFound) {
+        UITableViewCell *cell = [[tableView visibleCells] objectAtIndex:index];
+        if ([cell accessoryType] == UITableViewCellAccessoryNone) {
+            [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
+            [participantsArray addObject:[recentContactsArray objectAtIndex:index]];
+        } else {
+            [cell setAccessoryType:UITableViewCellAccessoryNone];
+            [participantsArray removeObject:[recentContactsArray objectAtIndex:index]];
+        }
+    }
 }
 
 @end

@@ -9,15 +9,23 @@
 #import <UIKit/UIKit.h>
 
 @interface cnfCallListController : UIViewController 
-    <UITableViewDataSource, UITableViewDelegate>
+    <UITableViewDataSource, UITableViewDelegate, NSURLConnectionDelegate>
 {
     IBOutlet UITableView *callListTable;
     NSMutableArray *callArray;
+    NSManagedObject *selectedCall;
 }
 
 @property (strong, nonatomic) IBOutlet UITableView *callListTable;
 @property (strong, nonatomic) NSMutableArray *callArray;
+@property (strong, nonatomic) NSManagedObject *selectedCall;
 
-- (void) saveCall;
 - (void) loadCalls;
+- (void) scheduleCall:(id)sender 
+            withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants;
+- (void) updateCall:(id)sender
+          withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants withOriginalCall: (NSManagedObject *)call;
+- (void) deleteCall: (NSManagedObject *)call;
+- (void) updateCallList;
+- (void) callAPI:(id)sender withTime:(NSDate *)time withParticipants:(NSArray *)participants isUpdating:(BOOL)updating;
 @end

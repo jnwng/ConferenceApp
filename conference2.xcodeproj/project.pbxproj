@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FC0A7FF11499C41400427779 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0A7FEF1499C41400427779 /* AddressBook.framework */; };
+		FC0A7FF21499C41400427779 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0A7FF01499C41400427779 /* AddressBookUI.framework */; };
+		FC4D61A314B3D1D3005F65CA /* cnfScheduleCallController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC4D61A214B3D1D3005F65CA /* cnfScheduleCallController.m */; };
+		FC518B7E1499A5BA00A285BE /* cnfCallSetupController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC518B7D1499A5BA00A285BE /* cnfCallSetupController.m */; };
+		FC518B881499ABA400A285BE /* cnfParticipantsController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC518B871499ABA400A285BE /* cnfParticipantsController.m */; };
 		FC5834C01499796B001F89EC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834BF1499796B001F89EC /* UIKit.framework */; };
 		FC5834C21499796B001F89EC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834C11499796B001F89EC /* Foundation.framework */; };
 		FC5834C41499796B001F89EC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5834C31499796B001F89EC /* CoreGraphics.framework */; };
@@ -15,21 +20,43 @@
 		FC5834CE1499796B001F89EC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5834CD1499796B001F89EC /* main.m */; };
 		FC5834D21499796B001F89EC /* cnfAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5834D11499796B001F89EC /* cnfAppDelegate.m */; };
 		FC5834D51499796C001F89EC /* conference2.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC5834D31499796C001F89EC /* conference2.xcdatamodeld */; };
+		FC5834DE14997A75001F89EC /* cnfDataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5834DC14997A75001F89EC /* cnfDataViewController.m */; };
+		FC7997AC1499CF7B0091760A /* cnfAddNewContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC7997AB1499CF7B0091760A /* cnfAddNewContactController.m */; };
+		FC8182CD1499A411004C65E5 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8182CC1499A411004C65E5 /* Storyboard.storyboard */; };
+		FC8182D51499A528004C65E5 /* cnfCallListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8182D41499A528004C65E5 /* cnfCallListController.m */; };
+		FCF7ADDB14B5A679003F21E4 /* cnfLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		FC0A7FEF1499C41400427779 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		FC0A7FF01499C41400427779 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		FC4D61A114B3D1D3005F65CA /* cnfScheduleCallController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfScheduleCallController.h; sourceTree = "<group>"; };
+		FC4D61A214B3D1D3005F65CA /* cnfScheduleCallController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfScheduleCallController.m; sourceTree = "<group>"; };
+		FC518B7C1499A5BA00A285BE /* cnfCallSetupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfCallSetupController.h; sourceTree = "<group>"; };
+		FC518B7D1499A5BA00A285BE /* cnfCallSetupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfCallSetupController.m; sourceTree = "<group>"; };
+		FC518B861499ABA400A285BE /* cnfParticipantsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfParticipantsController.h; sourceTree = "<group>"; };
+		FC518B871499ABA400A285BE /* cnfParticipantsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfParticipantsController.m; sourceTree = "<group>"; };
 		FC5834BB1499796B001F89EC /* conference2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = conference2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC5834BF1499796B001F89EC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FC5834C11499796B001F89EC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FC5834C31499796B001F89EC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FC5834C51499796B001F89EC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		FC5834C91499796B001F89EC /* conference2-Info.plist */ = {isa = PBXFileReference; path = "conference2-Info.plist"; sourceTree = "<group>"; };
+		FC5834C91499796B001F89EC /* conference2-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "conference2-Info.plist"; sourceTree = "<group>"; };
 		FC5834CB1499796B001F89EC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		FC5834CD1499796B001F89EC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		FC5834CF1499796B001F89EC /* conference2-Prefix.pch */ = {isa = PBXFileReference; path = "conference2-Prefix.pch"; sourceTree = "<group>"; };
-		FC5834D01499796B001F89EC /* cnfAppDelegate.h */ = {isa = PBXFileReference; path = cnfAppDelegate.h; sourceTree = "<group>"; };
+		FC5834CF1499796B001F89EC /* conference2-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "conference2-Prefix.pch"; sourceTree = "<group>"; };
+		FC5834D01499796B001F89EC /* cnfAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cnfAppDelegate.h; sourceTree = "<group>"; };
 		FC5834D11499796B001F89EC /* cnfAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = cnfAppDelegate.m; sourceTree = "<group>"; };
 		FC5834D41499796C001F89EC /* conference2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = conference2.xcdatamodel; sourceTree = "<group>"; };
+		FC5834DB14997A75001F89EC /* cnfDataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfDataViewController.h; sourceTree = "<group>"; };
+		FC5834DC14997A75001F89EC /* cnfDataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfDataViewController.m; sourceTree = "<group>"; };
+		FC7997AA1499CF7B0091760A /* cnfAddNewContactController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfAddNewContactController.h; sourceTree = "<group>"; };
+		FC7997AB1499CF7B0091760A /* cnfAddNewContactController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfAddNewContactController.m; sourceTree = "<group>"; };
+		FC8182CC1499A411004C65E5 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
+		FC8182D31499A528004C65E5 /* cnfCallListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfCallListController.h; sourceTree = "<group>"; };
+		FC8182D41499A528004C65E5 /* cnfCallListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfCallListController.m; sourceTree = "<group>"; };
+		FCF7ADD914B5A679003F21E4 /* cnfLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfLoginController.h; sourceTree = "<group>"; };
+		FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfLoginController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +64,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC0A7FF11499C41400427779 /* AddressBook.framework in Frameworks */,
+				FC0A7FF21499C41400427779 /* AddressBookUI.framework in Frameworks */,
 				FC5834C01499796B001F89EC /* UIKit.framework in Frameworks */,
 				FC5834C21499796B001F89EC /* Foundation.framework in Frameworks */,
 				FC5834C41499796B001F89EC /* CoreGraphics.framework in Frameworks */,
@@ -50,6 +79,8 @@
 		FC5834B01499796B001F89EC = {
 			isa = PBXGroup;
 			children = (
+				FC0A7FEF1499C41400427779 /* AddressBook.framework */,
+				FC0A7FF01499C41400427779 /* AddressBookUI.framework */,
 				FC5834C71499796B001F89EC /* conference2 */,
 				FC5834BE1499796B001F89EC /* Frameworks */,
 				FC5834BC1499796B001F89EC /* Products */,
@@ -81,6 +112,21 @@
 				FC5834D01499796B001F89EC /* cnfAppDelegate.h */,
 				FC5834D11499796B001F89EC /* cnfAppDelegate.m */,
 				FC5834D31499796C001F89EC /* conference2.xcdatamodeld */,
+				FC5834DB14997A75001F89EC /* cnfDataViewController.h */,
+				FC5834DC14997A75001F89EC /* cnfDataViewController.m */,
+				FC8182CC1499A411004C65E5 /* Storyboard.storyboard */,
+				FC8182D31499A528004C65E5 /* cnfCallListController.h */,
+				FC8182D41499A528004C65E5 /* cnfCallListController.m */,
+				FC518B7C1499A5BA00A285BE /* cnfCallSetupController.h */,
+				FC518B7D1499A5BA00A285BE /* cnfCallSetupController.m */,
+				FC518B861499ABA400A285BE /* cnfParticipantsController.h */,
+				FC518B871499ABA400A285BE /* cnfParticipantsController.m */,
+				FC7997AA1499CF7B0091760A /* cnfAddNewContactController.h */,
+				FC7997AB1499CF7B0091760A /* cnfAddNewContactController.m */,
+				FC4D61A114B3D1D3005F65CA /* cnfScheduleCallController.h */,
+				FC4D61A214B3D1D3005F65CA /* cnfScheduleCallController.m */,
+				FCF7ADD914B5A679003F21E4 /* cnfLoginController.h */,
+				FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */,
 				FC5834C81499796B001F89EC /* Supporting Files */,
 			);
 			path = conference2;
@@ -148,6 +194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC5834CC1499796B001F89EC /* InfoPlist.strings in Resources */,
+				FC8182CD1499A411004C65E5 /* Storyboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,6 +208,13 @@
 				FC5834CE1499796B001F89EC /* main.m in Sources */,
 				FC5834D21499796B001F89EC /* cnfAppDelegate.m in Sources */,
 				FC5834D51499796C001F89EC /* conference2.xcdatamodeld in Sources */,
+				FC5834DE14997A75001F89EC /* cnfDataViewController.m in Sources */,
+				FC8182D51499A528004C65E5 /* cnfCallListController.m in Sources */,
+				FC518B7E1499A5BA00A285BE /* cnfCallSetupController.m in Sources */,
+				FC518B881499ABA400A285BE /* cnfParticipantsController.m in Sources */,
+				FC7997AC1499CF7B0091760A /* cnfAddNewContactController.m in Sources */,
+				FC4D61A314B3D1D3005F65CA /* cnfScheduleCallController.m in Sources */,
+				FCF7ADDB14B5A679003F21E4 /* cnfLoginController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +318,7 @@
 				FC5834DA1499796C001F89EC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

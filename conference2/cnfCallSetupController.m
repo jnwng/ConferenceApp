@@ -8,9 +8,12 @@
 
 #import "cnfCallSetupController.h"
 #import "cnfParticipantsController.h"
+#import "cnfScheduleCallController.h"
+#import "cnfAppDelegate.h"
 
 @implementation cnfCallSetupController
-@synthesize doneButton, callSetupTable, callTime, callTitle, participantsArray;
+@synthesize scheduleButton, callSetupTable, callTime, callTitle, callToUpdate, participantsArray, parent;
+@synthesize callTitleTextField, callTimeCell;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"CallCell"; 
@@ -45,26 +48,47 @@
     
     // Get the object to display and set the value in the cell.
     if ([CellIdentifier isEqualToString:@"callTitleCell"]) {
-        if (!callTitle) {
-            callTitle = [[NSMutableString alloc] initWithString:@"Untitled"];
+        callTitleTextField = [[UITextField alloc] initWithFrame:CGRectMake(110, 10, 185, 30)];
+        callTitleTextField.adjustsFontSizeToFitWidth = YES;
+        callTitleTextField.textColor = [UIColor blackColor];
+        callTitleTextField.placeholder = @"Title of call";
+        callTitleTextField.keyboardType = UIKeyboardTypeEmailAddress;
+        callTitleTextField.returnKeyType = UIReturnKeyDone;
+        callTitleTextField.autocorrectionType = UITextAutocorrectionTypeNo;
+        callTitleTextField.autocapitalizationType = UITextAutocapitalizationTypeNone; 
+        callTitleTextField.textAlignment = UITextAlignmentRight;
+        callTitleTextField.tag = 0;
+        callTitleTextField.delegate = self;
+        callTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        [callTitleTextField setEnabled: YES];
+        
+        [cell addSubview:callTitleTextField];
+        
+        if (callToUpdate) {
+            callTitleTextField.text = [callToUpdate valueForKey:@"title"];
+            [self updateTitle:[callToUpdate valueForKey:@"title"]];
         }
-        cellLabel = callTitle;
+        cellLabel = @"Title";
     }
     else if ([CellIdentifier isEqualToString:@"callTimeCell"]) {
-//        if (callTime) {
-////            [self updateTime:callTime];
-//        }
-//        else {
+        if (callToUpdate) {
+            cellLabel = [self getStringFromDate:[callToUpdate valueForKey:@"time"]];
+            [self updateTime:[callToUpdate valueForKey:@"time"]];
+        }
+        else {
             cellLabel = @"Date & Time";
-//        }
+        }
+        callTimeCell = cell;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if ([CellIdentifier isEqualToString:@"addContactsCell"]) {
-        cellLabel = @"Add Contacts";
+        cellLabel = @"Add Participants";
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if ([CellIdentifier isEqualToString:@"participantsCell"]) {
-//        cellLabel = [participants;
+        NSManagedObject *contact = [participantsArray objectAtIndex:[indexPath row]];
+        cellLabel = [NSString stringWithFormat:@"%@ %@", [contact valueForKey:@"name"], [contact valueForKey:@"phone"]];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     cell.textLabel.text = cellLabel;
@@ -98,10 +122,9 @@
     switch([indexPath section]) {
         case 0:
             if (row == 0) {
-                
             }
             else if (row == 1) {
-                
+                [self performSegueWithIdentifier:@"scheduleCallSegue" sender:self];
             }
             else if (row == 2) {
                 [self performSegueWithIdentifier:@"addContactsSegue" sender:self];
@@ -112,6 +135,79 @@
         default:
             break;
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (BOOL) textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+- (void) textFieldDidEndEditing:(UITextField *)textField {
+    if ([textField.text length] == 0) {
+        [self updateTitle:@"Untitled"];
+    }
+    else {
+        [self updateTitle:textField.text];
+    }
+}
+
+- (void)updateTime: (NSDate *)date {
+    callTime = date;
+    callTimeCell.textLabel.text = [self getStringFromDate:date];
+}
+
+-(NSString *)getStringFromDate: (NSDate *)date {
+    NSDateFormatter *df = [[NSDateFormatter alloc] init];
+    df.dateStyle = NSDateFormatterMediumStyle;
+    df.dateFormat = @"ccc MMMM dd h:mm a";
+    return [NSString stringWithFormat:@"%@", [df stringFromDate:date]];
+}
+
+- (void) updateTitle: (NSString *)title {
+    callTitle = title;
+    callTitleTextField.text = callTitle;
+}
+
+-(void) updateParticipants {
+    [callSetupTable beginUpdates];
+    NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:1];
+    [callSetupTable reloadSections:indexSet withRowAnimation:YES];
+    [callSetupTable endUpdates];
+}
+
+- (void) onScheduleButtonClick {
+    NSString *message;
+    if (!callTitle) {
+        [self updateTitle:@"Untitled"];
+    }
+    if (callToUpdate) {
+        [parent updateCall:self withTitle:callTitle withTime:callTime withParticipants:participantsArray withOriginalCall:callToUpdate];
+        callToUpdate = nil;
+    }
+    else {
+        if (!callTime || [participantsArray count] == 0) {
+            if (!callTime) {
+                message = @"No time selected!";
+            }
+            else if ([participantsArray count] == 0) {
+                message = @"No participants added!";
+            }
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                            message:message 
+                                                           delegate:nil 
+                                                  cancelButtonTitle:@"Cancel"
+                                                  otherButtonTitles:nil];
+            [alert show];
+            alert = nil;
+        }
+        else {
+            [parent scheduleCall:self withTitle:callTitle withTime:callTime withParticipants:participantsArray];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
+
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -122,13 +218,12 @@
      */
     if ([[segue identifier] isEqualToString:@"addContactsSegue"]) {
         cnfParticipantsController *participantsController = [segue destinationViewController];
-//        participantsController.participantsArray = _participantsArray;
-//        participantsController.parent = self;
+        participantsController.parent = self;
     }
     else if ([[segue identifier] isEqualToString:@"scheduleCallSegue"]) {
-//        cnfScheduleCallController *scheduleCallController = [segue destinationViewController];
-//        scheduleCallController.callTime = _callTime;
-//        scheduleCallController.parent = self;
+        cnfScheduleCallController *scheduleCallController = [segue destinationViewController];
+        scheduleCallController.parent = self;
+        scheduleCallController.callTime = callTime;
     }
 }
 
@@ -151,27 +246,35 @@
 
 #pragma mark - View lifecycle
 
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    participantsArray = [[NSMutableArray alloc] init];
+    if (callToUpdate) {
+        NSSet *iterItems = [NSSet setWithSet:[callToUpdate valueForKey:@"participants"]];
+        for (NSManagedObject *item in iterItems) { 
+            [participantsArray addObject:item];
+        }
+        [self updateParticipants];
+    }
+    else {
+        participantsArray = [[NSMutableArray alloc] init];
+    }
 }
-*/
 
 - (void)viewDidUnload
 {
+    callTitleTextField = nil;
+    [self setCallTitleTextField:nil];
+    callTimeCell = nil;
+    [self setCallTimeCell:nil];
     callSetupTable = nil;
     [self setCallSetupTable:nil];
-    doneButton = nil;
-    [self setDoneButton:nil];
+    scheduleButton = nil;
+    [self setScheduleButton:nil];
+    participantsArray = nil;
+    [self setParticipantsArray:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
