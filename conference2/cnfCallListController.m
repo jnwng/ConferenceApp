@@ -120,12 +120,14 @@
 	// Dequeue or create a cell of the appropriate type.
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault 
+                                      reuseIdentifier:CellIdentifier];
         cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
     }
     
     //    // Get the object to display and set the value in the cell.
-    NSManagedObject *call = [callArray objectAtIndex:[callArray count] - [indexPath row] - 1];
+    
+    NSManagedObject *call = [callArray objectAtIndex:/*[callArray count] - */[indexPath row] /*- 1*/];
     cell.textLabel.text = [call valueForKey:@"title"];
     return cell;
 }
