@@ -150,13 +150,13 @@
     
     // We need to check the length of the phone number so we don't dismiss the modal too early
     if (property == kABPersonPhoneProperty) {
-        NSString *phoneNumber;
         ABMultiValueRef multi = ABRecordCopyValue(person, property);
         CFIndex theIndex = ABMultiValueGetIndexForIdentifier(multi, identifier);
-        phoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multi, theIndex);
-        NSMutableString* name = [(__bridge NSString *)ABRecordCopyValue(person, kABPersonFirstNameProperty) mutableCopy];
-        [name appendString:@" "];
-        [name appendString:(__bridge NSString *)ABRecordCopyValue(person, kABPersonLastNameProperty)];
+        NSString *phoneNumber = (__bridge NSString *)ABMultiValueCopyValueAtIndex(multi, theIndex);
+        NSString *name = (__bridge NSString *)ABRecordCopyCompositeName(person);
+        if ([name length] == 0) {
+            name = @"";
+        }
         if ([self addContact:self withName:name withPhoneNumber:phoneNumber]) {
             [self dismissModalViewControllerAnimated:YES];
             return NO;
