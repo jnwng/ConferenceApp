@@ -24,7 +24,6 @@
 		FC7997AC1499CF7B0091760A /* cnfAddNewContactController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC7997AB1499CF7B0091760A /* cnfAddNewContactController.m */; };
 		FC8182CD1499A411004C65E5 /* Storyboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC8182CC1499A411004C65E5 /* Storyboard.storyboard */; };
 		FC8182D51499A528004C65E5 /* cnfCallListController.m in Sources */ = {isa = PBXBuildFile; fileRef = FC8182D41499A528004C65E5 /* cnfCallListController.m */; };
-		FCF7ADDB14B5A679003F21E4 /* cnfLoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,8 +54,6 @@
 		FC8182CC1499A411004C65E5 /* Storyboard.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		FC8182D31499A528004C65E5 /* cnfCallListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfCallListController.h; sourceTree = "<group>"; };
 		FC8182D41499A528004C65E5 /* cnfCallListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfCallListController.m; sourceTree = "<group>"; };
-		FCF7ADD914B5A679003F21E4 /* cnfLoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cnfLoginController.h; sourceTree = "<group>"; };
-		FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cnfLoginController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +122,6 @@
 				FC7997AB1499CF7B0091760A /* cnfAddNewContactController.m */,
 				FC4D61A114B3D1D3005F65CA /* cnfScheduleCallController.h */,
 				FC4D61A214B3D1D3005F65CA /* cnfScheduleCallController.m */,
-				FCF7ADD914B5A679003F21E4 /* cnfLoginController.h */,
-				FCF7ADDA14B5A679003F21E4 /* cnfLoginController.m */,
 				FC5834C81499796B001F89EC /* Supporting Files */,
 			);
 			path = conference2;
@@ -214,7 +209,6 @@
 				FC518B881499ABA400A285BE /* cnfParticipantsController.m in Sources */,
 				FC7997AC1499CF7B0091760A /* cnfAddNewContactController.m in Sources */,
 				FC4D61A314B3D1D3005F65CA /* cnfScheduleCallController.m in Sources */,
-				FCF7ADDB14B5A679003F21E4 /* cnfLoginController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,6 +293,37 @@
 			};
 			name = Release;
 		};
+		FC71767314B6D48500F0F0B0 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Distribution;
+		};
+		FC71767414B6D48500F0F0B0 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "conference2/conference2-Prefix.pch";
+				INFOPLIST_FILE = "conference2/conference2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -307,6 +332,7 @@
 			buildConfigurations = (
 				FC5834D61499796C001F89EC /* Debug */,
 				FC5834D71499796C001F89EC /* Release */,
+				FC71767314B6D48500F0F0B0 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -316,6 +342,7 @@
 			buildConfigurations = (
 				FC5834D91499796C001F89EC /* Debug */,
 				FC5834DA1499796C001F89EC /* Release */,
+				FC71767414B6D48500F0F0B0 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
