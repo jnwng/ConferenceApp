@@ -40,7 +40,8 @@
 	// Dequeue or create a cell of the appropriate type.
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:CellIdentifier];
         
     }
     
@@ -79,7 +80,7 @@
             cellLabel = @"Date & Time";
         }
         callTimeCell = cell;
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     else if ([CellIdentifier isEqualToString:@"addContactsCell"]) {
         cellLabel = @"Add Participants";
@@ -185,6 +186,7 @@
     if (callToUpdate) {
         [parent updateCall:self withTitle:callTitle withTime:callTime withParticipants:participantsArray withOriginalCall:callToUpdate];
         callToUpdate = nil;
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else {
         if (!callTime || [participantsArray count] == 0) {

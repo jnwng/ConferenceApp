@@ -78,6 +78,7 @@
 
 - (void) callAPI:(id)sender withTime:(NSDate *)time 
         withParticipants:(NSArray *)participants isUpdating:(BOOL)updating {
+    //add own phone automatically to call here?
     NSString *participantText, *tempText, *phoneText;
     NSURLConnection *urlConnection;
     NSTimeInterval unixInterval = [time timeIntervalSince1970];
