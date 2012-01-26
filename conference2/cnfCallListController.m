@@ -87,7 +87,7 @@
     participantText = [[NSString alloc] initWithString:@""];
     for (int i = 0; i < [participants count]; i ++) {
         phoneText = [[participants objectAtIndex:i] valueForKey:@"phone"];
-        tempText = [NSString stringWithFormat:@"1%@,", phoneText];
+        tempText = [NSString stringWithFormat:@"%@,", phoneText];
         participantText = [participantText stringByAppendingString:tempText];
     }
     

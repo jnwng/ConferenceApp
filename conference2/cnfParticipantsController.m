@@ -184,12 +184,12 @@
     scanner = nil;
     numbers = nil;
     
-    if ([strippedNumber length] == 10) {
+    if ([strippedNumber length] == 10 || [strippedNumber length] == 11) {
         return strippedNumber;
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                        message:@"Invalid phone number. ##########" 
+                                                        message:@"Invalid phone number. Must be at least ten digits long" 
                                                        delegate:nil 
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];
