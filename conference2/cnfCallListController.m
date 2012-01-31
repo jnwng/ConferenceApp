@@ -25,6 +25,32 @@
     callArray = [[context executeFetchRequest:request error:&error] mutableCopy];
 }
 
+- (void)tableView:(UITableView *)tableView 
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSUInteger row = [indexPath row];
+    
+    [callArray removeObjectAtIndex:row];
+    
+    [tableView reloadData];
+}
+
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView 
+		   editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	
+    /*NSUInteger row = [indexPath row];
+    NSUInteger count = [callArray count];
+	
+    if (row < count) {
+        return UITableViewCellEditingStyleDelete;
+    } else {
+        return UITableViewCellEditingStyleNone;
+    }*/
+    
+    return UITableViewCellEditingStyleDelete;
+}
+
 - (void) scheduleCall:(id)sender withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants {
     cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *context = [appDelegate managedObjectContext];
@@ -78,6 +104,19 @@
 
 - (void) callAPI:(id)sender withTime:(NSDate *)time 
         withParticipants:(NSArray *)participants isUpdating:(BOOL)updating {
+    
+    /*if(![self connected])
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                        message:@"No network connection." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:nil];
+        [alert show];
+        alert = nil;
+        return nil;    
+    }*/
+    
     //add own phone automatically to call here?
     NSString *participantText, *tempText, *phoneText;
     NSURLConnection *urlConnection;
@@ -143,6 +182,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     selectedCall = nil;
 }
+
+/*- (BOOL)connected 
+{
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];  
+    NetworkStatus networkStatus = [reachability currentReachabilityStatus]; 
+    return !(networkStatus == NotReachable);
+}*/
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
