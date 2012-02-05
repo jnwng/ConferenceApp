@@ -227,6 +227,17 @@
         scheduleCallController.parent = self;
         scheduleCallController.callTime = callTime;
     }
+    
+    else if ([[segue identifier] isEqualToString:@"deleteCall"]) {
+        if(callToUpdate) {
+            [parent.callArray removeObjectIdenticalTo:callToUpdate];
+            [parent deleteCall:callToUpdate];
+            [parent updateCallList];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+        else [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

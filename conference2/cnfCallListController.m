@@ -9,6 +9,8 @@
 #import "cnfCallListController.h"
 #import "cnfAppDelegate.h"
 #import "cnfCallSetupController.h"
+#import "Reachability.h"
+
 
 @implementation cnfCallListController
 @synthesize callListTable, callArray, selectedCall;
@@ -63,14 +65,28 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     NSError *error;
     [context save:&error];
     
-    [self callAPI:self withTime:time withParticipants:participants isUpdating:NO];
-    
-    [callArray addObject:newCall];
-    [self updateCallList];
+    if([self callAPI:self withTime:time withParticipants:participants isUpdating:NO]==0) {
+        [callArray addObject:newCall];
+        [self updateCallList];
+    }
 }
 
 - (void) updateCall:(id)sender withTitle:(NSString *)title withTime:(NSDate *)time 
    withParticipants:(NSArray *)participants withOriginalCall:(NSManagedObject *)call {
+    
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];    
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus == NotReachable) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+                                                        message:@"We couldn't detect an internet connection. The changes you made could not be saved." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil];
+        [alert show];
+        alert = nil;
+        return;
+    }
+
     [call setValue:title forKey:@"title"];
     [call setValue:time forKey:@"time"];
     NSMutableSet *callParticipants = [call mutableSetValueForKey:@"participants"];
@@ -85,6 +101,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void) deleteCall:(NSManagedObject *)call {
+    
+    /* NSURLConnection *urlConnection;
+    NSURL *confURL = [[NSURL alloc] initWithString:@"DELETE STRING HERE"];
+    urlConnection = [[NSURLConnection alloc] initWithRequest: [NSURLRequest requestWithURL:confURL]
+                                                    delegate: self startImmediately:YES]; */
+    
+    
 //    [callArray replaceObjectAtIndex:<#(NSUInteger)#> withObject:<#(id)#>:call];
 //    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
 //    NSManagedObjectContext *context = [appDelegate managedObjectContext];
@@ -102,40 +125,45 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     sectionIndex = nil;
 }
 
-- (void) callAPI:(id)sender withTime:(NSDate *)time 
+- (int) callAPI:(id)sender withTime:(NSDate *)time 
         withParticipants:(NSArray *)participants isUpdating:(BOOL)updating {
-    
-    /*if(![self connected])
-    {
+
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];    
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus == NotReachable) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                        message:@"No network connection." 
+                                                        message:@"We couldn't detect an internet connection. Your call could not be scheduled." 
                                                        delegate:nil 
-                                              cancelButtonTitle:@"Cancel"
+                                              cancelButtonTitle:@"Ok"
                                               otherButtonTitles:nil];
         [alert show];
         alert = nil;
-        return nil;    
-    }*/
-    
-    //add own phone automatically to call here?
-    NSString *participantText, *tempText, *phoneText;
-    NSURLConnection *urlConnection;
-    NSTimeInterval unixInterval = [time timeIntervalSince1970];
-    NSString *callTimeText = [[NSString alloc] initWithFormat:@"date=%0.0f", unixInterval];
-    
-    participantText = [[NSString alloc] initWithString:@""];
-    for (int i = 0; i < [participants count]; i ++) {
-        phoneText = [[participants objectAtIndex:i] valueForKey:@"phone"];
-        tempText = [NSString stringWithFormat:@"%@,", phoneText];
-        participantText = [participantText stringByAppendingString:tempText];
+        return 1;
     }
+        //there-is-no-connection warning
     
-    NSString *fullURL = [[NSString alloc] initWithString:@"http://tiktam.herokuapp.com/api/conferences/new?"];
-    fullURL = [fullURL stringByAppendingString:callTimeText];
-    fullURL = [fullURL stringByAppendingString:@"&numbers="];
-    fullURL = [fullURL stringByAppendingString:participantText];
-    NSURL *confURL = [[NSURL alloc] initWithString:fullURL];
-    urlConnection = [[NSURLConnection alloc] initWithRequest: [NSURLRequest requestWithURL: confURL] delegate: self startImmediately: YES];
+    
+        //add own phone automatically to call here?
+        NSString *participantText, *tempText, *phoneText;
+        NSURLConnection *urlConnection;
+        NSTimeInterval unixInterval = [time timeIntervalSince1970];
+        NSString *callTimeText = [[NSString alloc] initWithFormat:@"date=%0.0f", unixInterval];
+    
+        participantText = [[NSString alloc] initWithString:@""];
+        for (int i = 0; i < [participants count]; i ++) {
+            phoneText = [[participants objectAtIndex:i] valueForKey:@"phone"];
+            tempText = [NSString stringWithFormat:@"%@,", phoneText];
+            participantText = [participantText stringByAppendingString:tempText];
+        }
+    
+        NSString *fullURL = [[NSString alloc] initWithString:@"http://tiktam.herokuapp.com/api/ conferences/new?"];
+        fullURL = [fullURL stringByAppendingString:callTimeText];
+        fullURL = [fullURL stringByAppendingString:@"&numbers="];
+        fullURL = [fullURL stringByAppendingString:participantText];
+        NSURL *confURL = [[NSURL alloc] initWithString:fullURL];
+        urlConnection = [[NSURLConnection alloc] initWithRequest: [NSURLRequest requestWithURL: confURL]             delegate: self startImmediately: YES];
+    
+    return 0;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
