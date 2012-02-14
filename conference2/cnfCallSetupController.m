@@ -63,6 +63,8 @@
         callTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [callTitleTextField setEnabled: YES];
         
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell addSubview:callTitleTextField];
         
         if (callToUpdate) {
@@ -78,6 +80,7 @@
         }
         else {
             cellLabel = @"Date & Time";
+
         }
         callTimeCell = cell;
         //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -94,10 +97,58 @@
     
     cell.textLabel.text = cellLabel;
     
+    
+    
     cellLabel = nil;
-    CellIdentifier = nil;
+    CellIdentifier = nil;  
     return cell;
 }
+
+- (IBAction) onDeleteCallClick {
+    if(callToUpdate) {
+    UIActionSheet *deleteCallDialog = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to delete this call? All records will be erased." 
+                                                                  delegate:self 
+                                                         cancelButtonTitle:@"Cancel" 
+                                                    destructiveButtonTitle:@"Delete" 
+                                                         otherButtonTitles:nil];
+    deleteCallDialog.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [deleteCallDialog showInView:self.view];
+    deleteCallDialog = nil;
+    }
+    
+    else [self.navigationController popViewControllerAnimated:YES
+          ]; 
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    switch(buttonIndex) {
+        case 0:
+            [self deleteCall];
+            break;
+        case 1:
+            break;
+        default:
+            break;
+    }
+}
+
+- (void) deleteCall {
+    if(callToUpdate) {
+        [parent.callArray removeObjectIdenticalTo:callToUpdate];
+        [parent deleteCall:callToUpdate];
+        [parent updateCallList];
+        [self.navigationController popViewControllerAnimated:YES];
+        
+        cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [appDelegate managedObjectContext];
+        [context deleteObject:callToUpdate];
+        NSError *error;
+        [context save:&error];
+        [self.parent updateCallList];
+    }
+    
+    else [self.navigationController popViewControllerAnimated:YES];
+} 
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 2;
@@ -105,6 +156,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSInteger rows;
+    
     switch (section) {
         case 0: 
             rows = 3;
@@ -176,6 +228,9 @@
     NSIndexSet *indexSet = [[NSIndexSet alloc] initWithIndex:1];
     [callSetupTable reloadSections:indexSet withRowAnimation:YES];
     [callSetupTable endUpdates];
+    
+    if(participantsArray.count>0) self.callSetupTable.tableFooterView=myButtons;
+    else self.callSetupTable.tableFooterView=nil;
 }
 
 - (void) onScheduleButtonClick {
@@ -212,6 +267,11 @@
 
 }
 
+- (IBAction)callNow {
+    [self updateTime:[[NSDate date] dateByAddingTimeInterval:-1]];
+    [self onScheduleButtonClick];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     
     /*
@@ -226,17 +286,6 @@
         cnfScheduleCallController *scheduleCallController = [segue destinationViewController];
         scheduleCallController.parent = self;
         scheduleCallController.callTime = callTime;
-    }
-    
-    else if ([[segue identifier] isEqualToString:@"deleteCall"]) {
-        if(callToUpdate) {
-            [parent.callArray removeObjectIdenticalTo:callToUpdate];
-            [parent deleteCall:callToUpdate];
-            [parent updateCallList];
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        
-        else [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
@@ -274,7 +323,93 @@
     else {
         participantsArray = [[NSMutableArray alloc] init];
     }
+    
+    //[self.callSetupTable addSubview:deleteButton];
+    
+    //self.callSetupTable.tableFooterView= deleteButton;
+    
+
+        
+    myButtons= [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 135)];
+    
+    deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [deleteButton addTarget:self 
+                     action:@selector(onDeleteCallClick)
+           forControlEvents:UIControlEventTouchUpInside];
+    [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+    UIImage *deleteImage = [UIImage imageNamed: @"rjdoW.png"];
+    [deleteButton setBackgroundImage:deleteImage forState: UIControlStateNormal];
+    deleteButton.frame = CGRectMake(10, 70, 300.0, 60.0);
+    deleteButton.userInteractionEnabled=YES;
+    [myButtons addSubview:deleteButton];
+    deleteButton.hidden=YES;
+    
+    UIButton *callButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [callButton addTarget:self 
+                   action:@selector(callNow)
+         forControlEvents:UIControlEventTouchUpInside];
+    [callButton setTitle:@"Call Now" forState:UIControlStateNormal];
+    UIImage *callImage = [UIImage imageNamed: @"IphoneButton_Green.png"];
+    [callButton setBackgroundImage:callImage forState: UIControlStateNormal];
+    callButton.frame = CGRectMake(10, 0, 300.0, 60.0);
+    callButton.userInteractionEnabled=YES;
+    [myButtons addSubview:callButton];
+    myButtons.userInteractionEnabled=YES;
+    
+    if(callToUpdate) {
+        deleteButton.hidden=NO;
+        self.callSetupTable.tableFooterView = myButtons;
+    }
 }
+
+/*- (UIView *)tableView:(UITableView *)tbleView viewForFooterInSection:(NSInteger)section {
+    
+    //if(tbleView!=callSetupTable) return nil;
+    
+    if(section==1) {
+        myButtons= [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 60)];
+        
+        deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [deleteButton addTarget:self 
+                   action:@selector(callNow)
+         forControlEvents:UIControlEventTouchDown];
+        [deleteButton setTitle:@"Delete" forState:UIControlStateNormal];
+        UIImage *deleteImage = [UIImage imageNamed: @"rjdoW.png"];
+        [deleteButton setBackgroundImage:deleteImage forState: UIControlStateNormal];
+        deleteButton.frame = CGRectMake(10, 0, 300.0, 60.0);
+        deleteButton.userInteractionEnabled=YES;
+        [myButtons addSubview:deleteButton];
+        
+        UIButton *callButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [callButton addTarget:self 
+                         action:@selector(callNow)
+               forControlEvents:UIControlEventTouchDown];
+        [callButton setTitle:@"Call Now" forState:UIControlStateNormal];
+        UIImage *callImage = [UIImage imageNamed: @"IphoneButton_Green.png"];
+        [callButton setBackgroundImage:callImage forState: UIControlStateNormal];
+        callButton.frame = CGRectMake(10, 70, 300.0, 60.0);
+        callButton.userInteractionEnabled=YES;
+        [myButtons addSubview:callButton];
+        myButtons.userInteractionEnabled=YES;
+        
+        /*[myButtons addSubview:deleteButton];
+        [myButtons addSubview:callNowButton];
+        myButtons.userInteractionEnabled = YES;
+        
+        myButtons.autoresizesSubviews = YES;
+        myButtons.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        myButtons.userInteractionEnabled = YES;
+        
+        myButtons.hidden = NO;
+        myButtons.multipleTouchEnabled = NO;
+        myButtons.opaque = NO;
+        myButtons.contentMode = UIViewContentModeScaleToFill;*/
+        
+        /*return myButtons;
+    }
+    
+    else return nil;
+}*/
 
 - (void)viewDidUnload
 {

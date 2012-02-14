@@ -58,6 +58,18 @@
     
             rowIndex = nil;
             insertIndexPaths = nil;
+            
+            //Adding contact to participants array automatically
+            
+            
+            /*NSManagedObject *contact = [recentContactsArray objectAtIndex:0];
+            [[parent participantsArray] addObject:contact];
+            [participantsArray addObject:contact];
+            static NSString *CellIdentifier = @"participantsCell";
+            UITableViewCell *cell = [participantsTable dequeueReusableCellWithIdentifier:CellIdentifier];
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
+            
+            [self.view reloadInputViews];*/
             return YES;
         }
         else {
@@ -189,7 +201,7 @@
     }
     else {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                                                        message:@"Invalid phone number. Must be at least ten digits long" 
+                                                        message:@"Invalid phone number. Must be 10 or 11 digits long" 
                                                        delegate:nil 
                                               cancelButtonTitle:@"Cancel"
                                               otherButtonTitles:nil];

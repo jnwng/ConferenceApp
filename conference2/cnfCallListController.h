@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <SystemConfiguration/SystemConfiguration.h>
 
 @interface cnfCallListController : UIViewController 
     <UITableViewDataSource, UITableViewDelegate, NSURLConnectionDelegate>
@@ -27,5 +28,5 @@
           withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants withOriginalCall: (NSManagedObject *)call;
 - (void) deleteCall: (NSManagedObject *)call;
 - (void) updateCallList;
-- (void) callAPI:(id)sender withTime:(NSDate *)time withParticipants:(NSArray *)participants isUpdating:(BOOL)updating;
+- (int) callAPI:(id)sender withTime:(NSDate *)time withParticipants:(NSArray *)participants isUpdating:(BOOL)updating;
 @end

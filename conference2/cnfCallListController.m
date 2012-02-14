@@ -33,8 +33,15 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     
     NSUInteger row = [indexPath row];
     
-    [callArray removeObjectAtIndex:row];
+    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *context = [appDelegate managedObjectContext];
+    [context deleteObject:[callArray objectAtIndex:row]];
+    NSError *error;
+    [context save:&error];
+    [self updateCallList];
     
+    
+    [callArray removeObjectAtIndex:row];
     [tableView reloadData];
 }
 
@@ -54,18 +61,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
 }
 
 - (void) scheduleCall:(id)sender withTitle:(NSString *)title withTime:(NSDate *)time withParticipants:(NSArray *)participants {
-    cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSManagedObjectContext *context = [appDelegate managedObjectContext];
-    NSManagedObject *newCall;
-    newCall = [NSEntityDescription insertNewObjectForEntityForName:@"Call" inManagedObjectContext:context];
-    [newCall setValue:title forKey:@"title"];
-    [newCall setValue:time forKey:@"time"];
-    NSMutableSet *callParticipants = [newCall mutableSetValueForKey:@"participants"];
-    [callParticipants addObjectsFromArray:participants];
-    NSError *error;
-    [context save:&error];
-    
     if([self callAPI:self withTime:time withParticipants:participants isUpdating:NO]==0) {
+        cnfAppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *context = [appDelegate managedObjectContext];
+        NSManagedObject *newCall;
+        newCall = [NSEntityDescription insertNewObjectForEntityForName:@"Call" inManagedObjectContext:context];
+        [newCall setValue:title forKey:@"title"];
+        [newCall setValue:time forKey:@"time"];
+        NSMutableSet *callParticipants = [newCall mutableSetValueForKey:@"participants"];
+        [callParticipants addObjectsFromArray:participants];
+        NSError *error;
+        [context save:&error];
         [callArray addObject:newCall];
         [self updateCallList];
     }
@@ -140,9 +146,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         alert = nil;
         return 1;
     }
-        //there-is-no-connection warning
-    
-    
         //add own phone automatically to call here?
         NSString *participantText, *tempText, *phoneText;
         NSURLConnection *urlConnection;
@@ -156,12 +159,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
             participantText = [participantText stringByAppendingString:tempText];
         }
     
-        NSString *fullURL = [[NSString alloc] initWithString:@"http://tiktam.herokuapp.com/api/ conferences/new?"];
+        NSString *fullURL = [[NSString alloc] initWithString:@"http://tiktam.herokuapp.com/api/conferences/new?"];
         fullURL = [fullURL stringByAppendingString:callTimeText];
         fullURL = [fullURL stringByAppendingString:@"&numbers="];
         fullURL = [fullURL stringByAppendingString:participantText];
         NSURL *confURL = [[NSURL alloc] initWithString:fullURL];
         urlConnection = [[NSURLConnection alloc] initWithRequest: [NSURLRequest requestWithURL: confURL]             delegate: self startImmediately: YES];
+    
+    
+    //ERROR CHECK
+    NSMutableString *url = [[NSMutableString alloc] initWithString: @"http://tiktam.herokuapp.com/api/conferences/new?"];
+    
+    [url appendString: callTimeText];
+    [url appendString: @"&numbers="];
+    [url appendString: participantText];
+    
+    NSLog(url);
+    
     
     return 0;
 }
@@ -178,6 +192,23 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         if (selectedCall) {
             callSetupController.callToUpdate = selectedCall;
             selectedCall = nil;
+            
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] init];
+            barButton.title = @"Call List";
+
+            self.navigationItem.backBarButtonItem = barButton;
+            
+            barButton=nil;
+        }
+        
+        else {
+            //sets back button to "cancel"
+            UIBarButtonItem *barButton = [[UIBarButtonItem alloc] init];
+            barButton.title = @"Cancel";
+            
+            self.navigationItem.backBarButtonItem = barButton;
+            
+            barButton=nil;
         }
     }
 }
