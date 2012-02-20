@@ -63,6 +63,14 @@
         callTitleTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [callTitleTextField setEnabled: YES];
         
+        //Tap Gesture Recognizer to help dismiss keyboard when tapped outside of it
+        tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                      action:@selector(dismissKeyboard)];
+        
+        tapView=[[UIView alloc] initWithFrame:CGRectMake(0, 137, 320, 155)];
+        
+        [tapView addGestureRecognizer:tap];
+        [self.view addSubview:tapView];
         
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         [cell addSubview:callTitleTextField];
@@ -102,6 +110,11 @@
     cellLabel = nil;
     CellIdentifier = nil;  
     return cell;
+}
+
+-(void)dismissKeyboard{
+    [callTitleTextField resignFirstResponder];
+    [self.view sendSubviewToBack:tapView];
 }
 
 - (IBAction) onDeleteCallClick {
@@ -190,6 +203,11 @@
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (BOOL) textFieldShouldBeginEditing:(UITextField *) textField {
+    [self.view bringSubviewToFront:tapView];
+    return YES;
 }
 
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
@@ -281,11 +299,13 @@
     if ([[segue identifier] isEqualToString:@"addContactsSegue"]) {
         cnfParticipantsController *participantsController = [segue destinationViewController];
         participantsController.parent = self;
+        [self dismissKeyboard];
     }
     else if ([[segue identifier] isEqualToString:@"scheduleCallSegue"]) {
         cnfScheduleCallController *scheduleCallController = [segue destinationViewController];
         scheduleCallController.parent = self;
         scheduleCallController.callTime = callTime;
+        [self dismissKeyboard];
     }
 }
 
@@ -305,6 +325,8 @@
     
     // Release any cached data, images, etc that aren't in use.
 }
+
+
 
 #pragma mark - View lifecycle
 
@@ -328,7 +350,12 @@
     
     //self.callSetupTable.tableFooterView= deleteButton;
     
-
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] init];
+    barButton.title = @"Cancel";
+    
+    self.navigationItem.backBarButtonItem = barButton;
+    
+    barButton=nil;
         
     myButtons= [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 135)];
     

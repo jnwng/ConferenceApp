@@ -20,6 +20,7 @@
     cnfCallSetupController *parent;
     NSMutableArray *recentContactsArray;
     NSMutableArray *participantsArray;
+    NSMutableArray *tempParticipantsArray;
     IBOutlet UIBarButtonItem *doneButton;
 }
 
@@ -27,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *addContactsButton;
 @property (strong, nonatomic) NSMutableArray *recentContactsArray;
 @property (strong, nonatomic) NSMutableArray *participantsArray;
+@property (strong, nonatomic) NSMutableArray *tempParticipantsArray;
 @property (strong, nonatomic) cnfCallSetupController *parent;
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 

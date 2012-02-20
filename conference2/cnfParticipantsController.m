@@ -12,7 +12,7 @@
 
 
 @implementation cnfParticipantsController
-@synthesize doneButton, addContactsButton, participantsTable, recentContactsArray, participantsArray, parent;
+@synthesize doneButton, addContactsButton, participantsTable, recentContactsArray, participantsArray,tempParticipantsArray, parent;
 
 - (IBAction) onAddContactClick {
     UIActionSheet *addContactDialog = [[UIActionSheet alloc] initWithTitle:@"Choose an existing contact, or add a new one" 
@@ -50,19 +50,18 @@
     
             [recentContactsArray insertObject:person atIndex:0];
             NSIndexPath *rowIndex = [NSIndexPath indexPathForRow:0 inSection:0];
+            
             NSArray *insertIndexPaths = [NSArray arrayWithObjects:rowIndex,nil];
     
             [participantsTable beginUpdates];
             [participantsTable insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationRight];
             [participantsTable endUpdates];
-    
-            rowIndex = nil;
-            insertIndexPaths = nil;
             
             //Adding contact to participants array automatically
             
+            //NSUInteger ind = [[tableView indexPathsForVisibleRows] indexOfObject:];
             
-            /*NSManagedObject *contact = [recentContactsArray objectAtIndex:0];
+            /*NSManagedObject *contact = [recentContactsArray objectAtIndex:];
             [[parent participantsArray] addObject:contact];
             [participantsArray addObject:contact];
             static NSString *CellIdentifier = @"participantsCell";
@@ -70,8 +69,18 @@
             cell.accessoryType = UITableViewCellAccessoryCheckmark;
             
             [self.view reloadInputViews];*/
+
+            [self tableView:participantsTable didSelectRowAtIndexPath:(NSIndexPath *)rowIndex];
+            [participantsTable beginUpdates];
+            [participantsTable endUpdates];
+            [parent updateParticipants]; 
+            
+            rowIndex = nil;
+            insertIndexPaths = nil;
+            
             return YES;
         }
+        
         else {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
                                               message:@"Duplicate participant added!" 
@@ -131,6 +140,8 @@
 }
 
 - (void) saveCallParticipants {
+    self.participantsArray= tempParticipantsArray;
+    parent.participantsArray = self.participantsArray;
     [parent updateParticipants];
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -231,14 +242,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    participantsArray = [parent participantsArray];
+    tempParticipantsArray =[[NSMutableArray alloc] initWithArray:participantsArray copyItems:YES]; 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self loadRecentContacts];
-    participantsArray = [parent participantsArray];
+
 }
 
 - (void)viewDidUnload
@@ -249,6 +261,7 @@
     [self setRecentContactsArray:nil];
     participantsArray = nil;
     [self setParticipantsArray:nil];
+    tempParticipantsArray = nil;
     addContactButton = nil;
     [self setAddContactsButton:nil];
     doneButton = nil;
@@ -361,12 +374,14 @@
         UITableViewCell *cell = [[tableView visibleCells] objectAtIndex:index];
         if ([cell accessoryType] == UITableViewCellAccessoryNone) {
             [cell setAccessoryType:UITableViewCellAccessoryCheckmark];
-            [participantsArray addObject:[recentContactsArray objectAtIndex:index]];
+            [tempParticipantsArray addObject:[recentContactsArray objectAtIndex:index]];
         } else {
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            [participantsArray removeObject:[recentContactsArray objectAtIndex:index]];
+            [tempParticipantsArray removeObject:[recentContactsArray objectAtIndex:index]];
         }
     }
+    
+    [parent updateParticipants];
 }
 
 @end

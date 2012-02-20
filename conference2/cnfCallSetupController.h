@@ -27,6 +27,9 @@
     cnfCallListController *parent;
         UIView *myButtons;
         
+    UITapGestureRecognizer *tap;
+        UIView *tapView;
+        
 }
 
 @property (strong, nonatomic) IBOutlet UIBarButtonItem *scheduleButton;
